@@ -177,4 +177,6 @@ int main() {
 
 What we are saying is that we want to wait here (i.e move no further) until the thread `t1` has concluded. For a more visual representation of what is happening take a look at the figure below.
 
-<img src="Images/joinExample.png"/>
+<img src="Images/joinExample1.png"/>
+
+As you can see from the above image, when we call `std::thread` we are actually splitting (or forking) from the main thread. Then we call `join`, we are waiting for the forked thread to re-`join` the main thread. With that said, I perfer to think of the `join` function more of a `wait` function, were we are `waiting for the forked thread to complete it's task`.
