@@ -113,5 +113,3 @@ Incase it's not obvious, I've simply move the `while-loops` into their own funct
 
 Let's now combine this example into a single source file.
 
-
-test
