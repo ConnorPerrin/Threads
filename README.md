@@ -150,3 +150,31 @@ With that high-level overview of the basic idea behind threads complete. I will 
 | 1 | [HelloWorld](Tutorials/Basic/HelloWorld/)  |
 
 ## C++ Threading methods and what they actually do
+
+### Join
+
+One of the most common [thread](https://www.cplusplus.com/reference/thread/thread/) functions you will see while learning about C++ threads is `join`. So what exactly is `join`? When we create a thread on a callable function, for example:
+
+```c++
+int main() {
+    std::thread t1 (someFunction);
+
+    return 0;
+}
+```
+
+We're actually (forking)[https://en.wikipedia.org/wiki/Fork%E2%80%93join_model] or splitting our current thread into multiple threads. When we add the `join` function to our code. For example:
+
+```c++
+int main() {
+    std::thread t1 (someFunction);
+
+    t1.join();
+
+    return 0;
+}
+```
+
+What we are saying is that we want to wait here (i.e move no further) until the thread `t1` has concluded. For a more visual representation of what is happening take a look at the figure below.
+
+<img src="Images/joinExample.png"/>
