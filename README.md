@@ -148,6 +148,7 @@ With that high-level overview of the basic idea behind threads complete. I will 
 | # | Name |
 |---|---|
 | 1 | [HelloWorld](Tutorials/Basic/HelloWorld/)  |
+| 1 | [FunctionPointer](Tutorials/Basic/FunctionPointer/)  |
 
 ## C++ Threading methods and what they actually do
 
@@ -217,8 +218,6 @@ There are some issues that are worth noting when using `detach`.
 
 - With the above code example, it is very likely that `printing...` will not be printed. This is because the parent thread will most likely `return` before the thread `t1` has even been created.
 - It is possibly to double-detach a thread resulting in an run-time error. However this is easily solved using `joinable` (more details below).
-
-Issues, main thread can complete before other thread does
 
 ### Joinable
 
