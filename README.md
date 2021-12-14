@@ -163,7 +163,7 @@ int main() {
 }
 ```
 
-We're actually (forking)[https://en.wikipedia.org/wiki/Fork%E2%80%93join_model] or splitting our current thread into multiple threads. When we add the `join` function to our code. For example:
+We're actually [forking](https://en.wikipedia.org/wiki/Fork%E2%80%93join_model) or splitting our current thread into multiple threads. When we add the `join` function to our code. For example:
 
 ```c++
 int main() {
@@ -180,3 +180,46 @@ What we are saying is that we want to wait here (i.e move no further) until the 
 <img src="Images/joinExample1.png"/>
 
 As you can see from the above image, when we call `std::thread` we are actually splitting (or forking) from the main thread. Then we call `join`, we are waiting for the forked thread to re-`join` the main thread. With that said, I perfer to think of the `join` function more of a `wait` function, were we are `waiting for the forked thread to complete it's task`.
+
+### Detach 
+
+
+
+### Joinable
+
+The function `joinable` is fairly self explanatory but why is it import to use it not so clear. Let's take a look at the code example below
+
+```c++
+
+int main() {
+    std::thread t1 (someFunction);
+
+    t1.join();
+    t1.join();
+
+    return 0;
+}
+```
+
+At first glance it may not be obvious what will be the output of this example. However, if we were to run it we would get an error along the lines of `terminate called after throwing an instance of 'std::system_error'` [NOTE: this is a run-time error, so the compiler will not pick this up]. What this means is we're trying to `join` a thread that has already been joined. Now we have two options to avoid this error.
+
+1. Just call `join` once
+2. Check if the thread is `joinable`
+
+Whilst option one seems simple it can sometimes be hard to keep track of. Imagine we have several threads with many lines of code, this can make it very difficult to determine if we have already joined or not. Clearly option two is the best approach. Let's take a look at the above example again but with `joinable` added.
+
+```c++
+int main() {
+    std::thread t1 (someFunction);
+
+    if(t1.joinable())
+        t1.join();
+    
+    if(t1.joinable())
+        t1.join();
+
+    return 0;
+}
+```
+
+The above code will now run without any error.
