@@ -267,7 +267,7 @@ int main() {
 
 The above code will now run without any error.
 
-### Mutex
+### Race Condition
 
 Before I drive into what a `mutex` is, I'm first going to describe a problem that can occur when we use threads. Let's consider the following code example:
 
@@ -322,15 +322,19 @@ If I showed you the above code and asked you "Will this statement ever be printe
 
 Let me explain the above image. As you can see we have three 'rows'. The first row represents the current value of `global_variable`. The next row shows what thread one (evenCheck) is doing and finally the third row shows us what thread two (increment) is doing. The columns represent each time either thread performs an action (increment, check, print, etc). By including the current value of `global_variable` we are able to see what value is passed into the check. I've also included a green arrow to show what the flow.
 
-As you can see from the above image, initially when check to see if global_variable this is 'true'. However before thread one is able to check if global_variable is even, thread two increments the value of global_variable. This results in the final odd check return true. This in turn allows us to print "Global Variable is even: 3". [Click here to access the code](Tutorials/Intermediate/RaceCondition/src/raceCondition.cpp)
+As you can see from the above image, initially when check to see if global_variable this is 'true'. However before thread one is able to check if global_variable is even, thread two increments the value of global_variable. This results in the final odd check return true. This in turn allows us to print "Global Variable is even: 3". [Click here to access the code](Tutorials/Intermediate/RaceCondition/src/raceCondition.cpp).
 
-So how do we deal with this? Well there are actually a few options but the easiest to understand is what is called a `mutex`
+Now we know what a `race condition` is, let's now start looking into how we can prevent this from happening.
+
+### Mutex
+
+
 
 
 Race condition 
 - lock
 - unlock
-- problem with these two commands and why not to use them
+- problem with these two commands and why not to use them (Exceptions)
 
 ### Lock_guard
 
