@@ -148,7 +148,16 @@ With that high-level overview of the basic idea behind threads complete. I will 
 | # | Name |
 |---|---|
 | 1 | [HelloWorld](Tutorials/Basic/HelloWorld/)  |
-| 1 | [FunctionPointer](Tutorials/Basic/FunctionPointer/)  |
+| 2 | [FunctionPointer](Tutorials/Basic/FunctionPointer/)  |
+| 3 | TODO: Lambda Function |
+| 4 | TODO: Function Object (Functor) |
+| 5 | TODO: Non-static member function |
+| 6 | TODO: Static member function | 
+| 7 | [Race Condition](Tutorials/Intermediate/RaceCondition/) | 
+| 8 | TODO: Mutex example |
+| 9 | TODO: Thread lock example |
+| 10 | TODO: Get value from threaded function | 
+
 
 ## C++ Threading methods and what they actually do
 
@@ -257,3 +266,125 @@ int main() {
 ```
 
 The above code will now run without any error.
+
+### Mutex
+
+Before I drive into what a `mutex` is, I'm first going to describe a problem that can occur when we use threads. Let's consider the following code example:
+
+```c++
+
+int global_variable = 1;
+int global_range = 10000;
+
+void evenCheck() {
+    for(int i = 0; i < global_range; i++) {
+        global_variable++;
+
+        if(global_variable % 2 == 0) {
+            std::cout << "\tGlobal Variable is even: " << global_variable << "\n";
+        }
+    }
+}
+
+void increment() {
+    for(int i = 0; i < global_range; i++) {
+        global_variable++;
+    }
+}
+
+int main() {
+
+    std::thread t1(evenCheck);
+    std::thread t2(increment);
+
+    t1.join();
+    t2.join();
+
+    return 0;
+}
+
+```
+
+At first glance the above code may look perfectly fine, however what if I said that every now and then the print statement will print an odd number. This is due to what we call the `race condition`. To make it clearer (and easier to see if you run it), let's look at a modified code snippet.
+
+```c++
+
+if(global_variable % 2 == 0) {
+    if(global_variable % 2 != 0) {
+        std::cout << "\tGlobal Variable is even: " << global_variable << "\n";
+    }
+}
+```
+
+If I showed you the above code and asked you "Will this statement ever be printed?" you'll obviously say "no", how can a number be both odd and even at the same time. Well here lies the root of the problem. Let's take a look at this from a more visual stand point.
+
+<img src="Images/raceCondition.png"/>
+
+Let me explain the above image. As you can see we have three 'rows'. The first row represents the current value of `global_variable`. The next row shows what thread one (evenCheck) is doing and finally the third row shows us what thread two (increment) is doing. The columns represent each time either thread performs an action (increment, check, print, etc). By including the current value of `global_variable` we are able to see what value is passed into the check. I've also included a green arrow to show what the flow.
+
+As you can see from the above image, initially when check to see if global_variable this is 'true'. However before thread one is able to check if global_variable is even, thread two increments the value of global_variable. This results in the final odd check return true. This in turn allows us to print "Global Variable is even: 3". [Click here to access the code](Tutorials/Intermediate/RaceCondition/src/raceCondition.cpp)
+
+So how do we deal with this? Well there are actually a few options but the easiest to understand is what is called a `mutex`
+
+
+Race condition 
+- lock
+- unlock
+- problem with these two commands and why not to use them
+
+### Lock_guard
+
+### Lock
+
+### Unique_lock
+
+- Do unique_locks need to be "unlocked" or is this done automatically (i.e. when we go out of scope)
+- The benefit of this is that in case some exception is thrown, you are sure that the mutex will unlock when leaving the scope where the std::unique_lock is defined.
+
+### Once_flag & Call_once
+
+### Condition_variable 
+
+- notify_one
+- notify_all
+- wait
+  - Will automatically unlock the thread
+  - Has to be a unique_lock (as we are unlocking and locking). We cannot use lock_guard
+  - Spurious wake
+  - Predicator 
+- MORE
+
+### Async 
+
+- May or may not create another thread
+- std::launch
+
+### Future
+    - templated 
+
+### Promise
+    - templated
+
+
+### Shared_future
+- Can be copied
+
+## Chrono
+
+### Thread sleeping
+
+
+## Key terms
+
+### Race Condition
+
+### Thread lock
+
+### Deadlock
+
+
+
+# Useful links
+
+https://www.youtube.com/watch?v=hCvc9y39RDw&ab_channel=CppNuts
+https://www.youtube.com/watch?v=SZQ6-pf-5Us&ab_channel=BoQian
