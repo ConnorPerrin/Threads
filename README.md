@@ -387,6 +387,45 @@ Race condition
 ### Deadlock
 
 
+# Low-level
+
+```
+The term threads usually covers three abstraction layers:
+
+User threads are threads launched by applications and are mapped N:M to:
+Kernel threads, which are threads managed by the operating system, mapped N:M to:
+Hardware threads, which are the actual physical resources available.
+The 4 threads you said are launched by the application are from category 1 (user threads), while the value 2 returned by that function refers to category 3 (hardware threads). Since the mapping is N:M across the layers, you can see that you can have several user threads mapped to a smaller number of hardware threads.
+
+Having said this, typically starting more than 2x the number of hardware threads if you are doing intensive computations will hurt performance due to context switches and resource contention.
+```
+
+```
+
+Dependency between ULT and KLT : 
+The one and only major dependency between KLT and ULT arise when an ULT is in need of the Kernel resources. Every ULT thread is associated to a virtual processor called Light-weight process. This is created and bined to ULT by the thread library according to the application need. Whenever a system call invoked, a kernel level thread is created and scheduled to the LWPs by the system scheduler. These KLT are scheduled to access the kernel resources by the system scheduler which is unaware of the ULT. Whereas the KLT is aware of each ULT associated to it via LWPs. 
+```https://www.geeksforgeeks.org/relationship-between-user-level-thread-and-kernel-level-thread/
+
+https://stackoverflow.com/questions/46619223/difference-between-cpu-threads-kernel-threads-os-threads-user-threads
+https://www.youtube.com/watch?v=w0t8nA6ssrw&ab_channel=OSCAAcademy
+https://www.geeksforgeeks.org/difference-between-process-and-kernel-thread/
+https://stackoverflow.com/questions/1178785/relationship-between-a-kernel-and-a-user-thread
+https://stackoverflow.com/questions/16322446/what-exactly-is-a-kernel-thread-and-how-does-it-work-with-processes
+https://stackoverflow.com/questions/4985182/what-is-the-difference-between-kernel-threads-and-user-threads?rq=1
+https://www.geeksforgeeks.org/why-must-user-threads-be-mapped-to-a-kernel-thread/#:~:text=All%20the%20user%20threads%20that,hence%20the%20process%20is%20executed.
+
+
+## Hyper-threading (Hardware threads)
+
+## Multi-threading
+
+## Kernel-threading (lightweight process)
+
+Use the kernel thread to access system calls
+
+### System calls
+
+## OS-threading
 
 # Useful links
 
