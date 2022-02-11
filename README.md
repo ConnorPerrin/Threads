@@ -404,9 +404,9 @@ Before I can explain what a User Level Thread is, I first need to explain what a
 
 If we create a very simple programme, say `Hello, World`. When we execute this programme, what you are creating is a `process`. This process doesn't just contain the executable code but lots of important features. [The University of Illinois](https://cs.uic.edu/) has a very simple picture that depicts some of the important features of a `process`.Take a look at the left side of the picture below denoting a simple process (singly-threaded).
 
-<center>
-<img src="https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/images/Chapter4/4_01_ThreadDiagram.jpg"/>
-</center>
+<p align="center">
+  <img src="https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/images/Chapter4/4_01_ThreadDiagram.jpg"/>
+</p>
 
 As you can see, when we run our programme the "computer" creates a series of "Helper Features". Whilst I could go into detail about each of these features, I'm going to focus on the "thread" aspect. As you've probably noticed, when we execute our programme, at least one thread is created. This is referred to as the `main-thread`. If in our programme we create more threads, then our programme becomes a `multithreaded process` (The right side of the above image).
 
