@@ -414,9 +414,8 @@ It's these `process threads` which are referred to as `User Level Threads` as th
 
 A nice StackOverflow answer by [Yusuf Hassan](https://stackoverflow.com/a/41217646/740445) is: 
 
-```wrap
-Threads are lightweight processes within the domain of independent processes. They are required because processes are heavy, consume a lot of resources and more importantly, two separate processes cannot share a memory space.
-```
+> Threads are lightweight processes within the domain of independent processes. They are required because processes are heavy, consume a lot of resources and more importantly, two separate processes cannot share a memory space.
+
 
 
 
@@ -432,11 +431,10 @@ A more scientific answer is this, whenever we need to perform a [system call](ht
 
 Typically Kernel Level Threads are slower than User Level Threads. An answer by [pjc50](https://superuser.com/users/10680/pjc50) on [superuser](https://superuser.com/questions/669883/why-are-user-level-threads-faster-than-kernel-level-threads) explains why this is the case.
 
-```
-Kernel-level threads require a context switch, which involves changing a large set of processor registers that define the current memory map and permissions. It also evicts some or all of the processor cache.
+> Kernel-level threads require a context switch, which involves changing a large set of processor registers that define the current memory map and permissions. It also evicts some or all of the processor cache.
+>
+> User-level threads just require a small amount of bookkeeping within one kernel thread or process.
 
-User-level threads just require a small amount of bookkeeping within one kernel thread or process.
-```
 
 
 ## CPU Threads (Hyperthreads)
