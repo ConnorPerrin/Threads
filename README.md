@@ -413,7 +413,8 @@ As you can see, when we run our programme the "computer" creates a series of "He
 It's these `process threads` which are referred to as `User Level Threads` as the user can manually create these threads.
 
 A nice StackOverflow answer by [Yusuf Hassan](https://stackoverflow.com/a/41217646/740445) is: 
-```
+
+```wrap
 Threads are lightweight processes within the domain of independent processes. They are required because processes are heavy, consume a lot of resources and more importantly, two separate processes cannot share a memory space.
 ```
 
