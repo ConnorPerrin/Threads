@@ -496,16 +496,6 @@ context switching between threads in the same process typically occurs faster th
 https://en.wikipedia.org/wiki/Thread_(computing)#:~:text=User%20threads%20may%20be%20executed,user%20threads%20onto%20kernel%20threads.
 
 
-https://stackoverflow.com/questions/46619223/difference-between-cpu-threads-kernel-threads-os-threads-user-threads
-https://www.youtube.com/watch?v=w0t8nA6ssrw&ab_channel=OSCAAcademy
-https://www.geeksforgeeks.org/difference-between-process-and-kernel-thread/
-https://stackoverflow.com/questions/1178785/relationship-between-a-kernel-and-a-user-thread
-https://stackoverflow.com/questions/16322446/what-exactly-is-a-kernel-thread-and-how-does-it-work-with-processes
-https://stackoverflow.com/questions/4985182/what-is-the-difference-between-kernel-threads-and-user-threads?rq=1
-https://www.geeksforgeeks.org/why-must-user-threads-be-mapped-to-a-kernel-thread/#:~:text=All%20the%20user%20threads%20that,hence%20the%20process%20is%20executed.
-https://en.wikipedia.org/wiki/Thread_(computing)#:~:text=User%20threads%20may%20be%20executed,user%20threads%20onto%20kernel%20threads.
-https://unix.stackexchange.com/questions/472324/what-are-the-relations-between-processes-kernel-threads-lightweight-processes
-https://stackoverflow.com/questions/40707221/multithreading-model-in-linux-and-windows
 
 ## Hyper-threading (Hardware threads)
 
@@ -523,7 +513,32 @@ Use the kernel thread to access system calls
 
 As you can imagine, this section required lots of research. As a result, below are some of the links I used during my time researching this area.
 
+Websites: 
  * [Why are user level threads faster than kernel level threads?](https://superuser.com/questions/669883/why-are-user-level-threads-faster-than-kernel-level-threads)
+ * [Difference between user-level and kernel-supported threads?](https://stackoverflow.com/questions/15983872/difference-between-user-level-and-kernel-supported-threads#:~:text=A%20User%20thread%20is%20one,with%20a%20user%2Dspace%20process.)
+ * [Difference between User Level thread and Kernel Level thread](https://www.geeksforgeeks.org/difference-between-user-level-thread-and-kernel-level-thread/)
+ * [How do user level threads (ULTs) and kernel level threads (KLTs) differ with regards to concurrent execution?](https://stackoverflow.com/questions/14791801/how-do-user-level-threads-ults-and-kernel-level-threads-klts-differ-with-reg)
+ * [What types of Threads are there?](http://www.it.uu.se/education/course/homepage/os/vt18/module-4/implementing-threads/)
+ * [Is a light weight process attached to a kernel thread in Linux?](https://unix.stackexchange.com/questions/472300/is-a-light-weight-process-attached-to-a-kernel-thread-in-linux)
+ * [What are the relations between processes, kernel threads, lightweight processes and user threads in Unix?](https://unix.stackexchange.com/questions/472324/what-are-the-relations-between-processes-kernel-threads-lightweight-processes)
+ * [What are lightweight processes?](https://en.wikipedia.org/wiki/Light-weight_process) / [Lightweight processes explained](https://www.tutorialspoint.com/lightweight-process-lwp#:~:text=The%20LWP%20appears%20to%20be,to%20run%20on%20physical%20processors.)
+ * [What are Green Threads](https://en.wikipedia.org/wiki/Green_threads)
+ * [Why must user threads be mapped to a kernel thread](https://www.geeksforgeeks.org/why-must-user-threads-be-mapped-to-a-kernel-thread/#:~:text=All%20the%20user%20threads%20that,hence%20the%20process%20is%20executed.)
+ * [What is the difference between kernel threads and user threads?](https://stackoverflow.com/questions/4985182/what-is-the-difference-between-kernel-threads-and-user-threads?rq=1)
+ * [Relationship between a kernel and a user thread](https://stackoverflow.com/questions/1178785/relationship-between-a-kernel-and-a-user-thread)
+ * [What exactly is a kernel thread and how does it work with processes?](https://stackoverflow.com/questions/16322446/what-exactly-is-a-kernel-thread-and-how-does-it-work-with-processes)
+ * [What is the Difference Between Hyper Threading and Multithreading](https://pediaa.com/what-is-the-difference-between-hyper-threading-and-multithreading/)
+ * [Difference between CPU threads, Kernel threads, OS threads, user threads](https://stackoverflow.com/questions/46619223/difference-between-cpu-threads-kernel-threads-os-threads-user-threads) 
+ * [What is a Kernel thread?](https://stackoverflow.com/questions/9481055/what-is-a-kernel-thread)
+ * [The University of Illinois - What are threads](https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/4_Threads.html) (Very useful link)
+ * [Difference between Process and Kernel Thread](https://www.geeksforgeeks.org/difference-between-process-and-kernel-thread/)
+ * [Multithreading model in Linux and Windows](https://stackoverflow.com/questions/40707221/multithreading-model-in-linux-and-windows)
+
+Videos:
+ 
+ * [Introduction to Threads](https://www.youtube.com/watch?v=LOfGJcVnvAk&ab_channel=NesoAcademy) (14 mins)
+ * [Multithreading Models & Hyperthreading](https://www.youtube.com/watch?v=HW2Wcx-ktsc&ab_channel=NesoAcademy) (18 mins)
+ * [Thread implementation #3 - Models: user thread vs. kernel thread | cs370](https://www.youtube.com/watch?v=w0t8nA6ssrw&ab_channel=OSCAAcademy) (Great breakdown and explanation - 13 mins)
 
 # Useful links
 
