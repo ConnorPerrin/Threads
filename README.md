@@ -455,14 +455,28 @@ If you want another explanation behind hyperThreading I would recommend [this](h
 
 At this point, you should have a basic idea of `User Level Threads`, `Kernel Level Threads` and `HyperThreads`. However, how these these components connect is a little bit tricky.
 
-Let's start by seeing how ULT interact with KLT.
+Let's start by seeing how User Level Threading interact with Kernel Level Threading.
 
-### ULT and KLT
+### User Level Threading and Kernel Level Threading
+
+As mentioned earlier, only Kernel Level Threads are visible to the CPU schedular. As a result, only Kernel Level Threads can be execute on the CPU.
+
+"So how do User Level Threads get execute on the CPU?" I hear you ask. Whenever we create a User Level Thread (either implicitly or explicitly), the Operating System  either creates a new Kernel Level Thread or creates a link between an already existing Kernel Level Thread. This connection allows User Level Threads to be "in part" executed on the CPU.
+
+A little confusing right? Let me explain this is a little more detail. Every user level thread is mapped to a kernel level thread.
+
+<p align="center">
+    <img src="Images/ThreadMapping.png"/>
+</p>
+
+
+> So in a nutshell user threads need to be mapped to kernel threads because it’s the kernel that schedules the thread for execution onto the CPU and for that it must know about the thread that it is scheduling. For a simple process the kernel only knows about the existence of the process and not the user threads created inside of it so the kernel will only schedule the process’s thread (which is a kernel thread) onto the CPU, all the other user threads inside the process have to be mapped one by one onto the kernel thread appointed to the creating process if they have to be executed.
 
 
 
+#### Recommended Reading:
 
-
+* [Why must user threads be mapped to a kernel thread](https://www.geeksforgeeks.org/why-must-user-threads-be-mapped-to-a-kernel-thread)
 
 ```
 The term threads usually covers three abstraction layers:
@@ -523,7 +537,7 @@ Websites:
  * [What are the relations between processes, kernel threads, lightweight processes and user threads in Unix?](https://unix.stackexchange.com/questions/472324/what-are-the-relations-between-processes-kernel-threads-lightweight-processes)
  * [What are lightweight processes?](https://en.wikipedia.org/wiki/Light-weight_process) / [Lightweight processes explained](https://www.tutorialspoint.com/lightweight-process-lwp#:~:text=The%20LWP%20appears%20to%20be,to%20run%20on%20physical%20processors.)
  * [What are Green Threads](https://en.wikipedia.org/wiki/Green_threads)
- * [Why must user threads be mapped to a kernel thread](https://www.geeksforgeeks.org/why-must-user-threads-be-mapped-to-a-kernel-thread/#:~:text=All%20the%20user%20threads%20that,hence%20the%20process%20is%20executed.)
+ * [Why must user threads be mapped to a kernel thread](https://www.geeksforgeeks.org/why-must-user-threads-be-mapped-to-a-kernel-thread/) (Very useful link, recommend reading)
  * [What is the difference between kernel threads and user threads?](https://stackoverflow.com/questions/4985182/what-is-the-difference-between-kernel-threads-and-user-threads?rq=1)
  * [Relationship between a kernel and a user thread](https://stackoverflow.com/questions/1178785/relationship-between-a-kernel-and-a-user-thread)
  * [What exactly is a kernel thread and how does it work with processes?](https://stackoverflow.com/questions/16322446/what-exactly-is-a-kernel-thread-and-how-does-it-work-with-processes)
