@@ -389,6 +389,82 @@ Race condition
 
 # Low-level
 
+So I've given an overview of some functions and use-cases of C++ Threads but haven't really spoken about what is happening "Under the hood", so to speak. In this section, I'm going to give a more detailed explanation of how the various types of threads and how they interact with the CPU.
+
+First, the types of threads. 
+ * User Level Threads (ULT)
+ * Kernel Level Threads (KLT)
+ * Hardware threads (Hyperthreading)
+
+The following sections will explain what each of these are and their limitations. Finally I will explain how they all communicate with each other.
+
+## User Level Threads (ULT)
+
+Before I can explain what a User Level Thread is, I first need to explain what a `process` is. As always, I find learning by example, is easier.
+
+If we create a very simple programme, say `Hello, World`. When we execute this programme, what you are creating is a `process`. This process doesn't just contain the executable code but lots of important features. [The University of Illinois](https://cs.uic.edu/) has a very simple picture that depicts some of the important features of a `process`.Take a look at the left side of the picture below denoting a simple process (singly-threaded).
+
+<center>
+<img src="https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/images/Chapter4/4_01_ThreadDiagram.jpg"/>
+</center>
+
+As you can see, when we run our programme the "computer" creates a series of "Helper Features". Whilst I could go into detail about each of these features, I'm going to focus on the "thread" aspect. As you've probably noticed, when we execute our programme, at least one thread is created. This is referred to as the `main-thread`. If in our programme we create more threads, then our programme becomes a `multithreaded process` (The right side of the above image).
+
+It's these `process threads` which are referred to as `User Level Threads` as the user can manually create these threads.
+
+A nice StackOverflow answer by [Yusuf Hassan](https://stackoverflow.com/a/41217646/740445) is: 
+```
+Threads are lightweight processes within the domain of independent processes. They are required because processes are heavy, consume a lot of resources and more importantly, two separate processes cannot share a memory space.
+```
+
+
+
+
+
+## Kernel Level Threads (KLT)
+
+Whilst you've most likely not heard of the term `User Level Threads`, you probably did know what they are. However, most people have never heard of `Kernel Level Threads`. 
+
+As you have probably guessed, these threads exist in the `kernel` realm of the computer. This area is not accessible to the user (you). So why have a kernel level at all? In general, the CPU can only communicate with Kernel and not the user. Put even simpler, the only "thing" that can tell the CPU (or other hardware devices) what to do is the kernel. 
+
+A more scientific answer is this, whenever we need to perform a [system call](https://en.wikipedia.org/wiki/System_call#:~:text=In%20computing%2C%20a%20system%20call,on%20which%20it%20is%20executed.&text=System%20calls%20provide%20an%20essential,process%20and%20the%20operating%20system.), we have to go through a Kernel Thread as this calls can only be computed by the CPU. 
+
+Typically Kernel Level Threads are slower than User Level Threads. An answer by [pjc50](https://superuser.com/users/10680/pjc50) on [superuser](https://superuser.com/questions/669883/why-are-user-level-threads-faster-than-kernel-level-threads) explains why this is the case.
+
+```
+Kernel-level threads require a context switch, which involves changing a large set of processor registers that define the current memory map and permissions. It also evicts some or all of the processor cache.
+
+User-level threads just require a small amount of bookkeeping within one kernel thread or process.
+```
+
+
+## CPU Threads (Hyperthreads)
+
+You've most likely come see CPU companies advertise something called `virtual cores` or `hyperThreading`. In this section I'll give a brief overview of what hyperThreading is however I will also share some links to a range of excellent, short video explanations. 
+
+As you are probably aware, a single CPU-core can only perform one task at a time. As a result, CPU manufactures "addressed" this problem by creating CPUs with more cores. However, when switching between tasks, there is a significant delay. In order to address this Intel created the first hyperthreaded CPU. So what does this actually mean? 
+
+[Techquickie](https://www.youtube.com/channel/UC0vBXGSyV14uvJ4hECDOl0Q)'s Linus uploaded [this](https://www.youtube.com/watch?v=wnS50lJicXc&ab_channel=Techquickie) video which explains it beautifully. 
+
+For this example, I'm going to explain a single-cored, single-threaded CPU using `mouths` and `arms`. Imagine that your mouth is the CPU-core and your arm is the thread, and in front of you is a conveyor belt of food (where the food represents tasks). Every time a new piece of food appears in front of you, your arm moves to grab that piece of food and brings it to your mouth for processing. However, once you've stopped eating, you have to move your arm away from your mouth to grab the next piece of food from the conveyor belt. In this moment, your mouth is not eating (processing) anything. In order to address this problem we add in another arm (thread). Whilst one arm is holding the food to your mouth (core), the other arm (thread) is grabbing the next piece of food to be processed.
+
+If you want another explanation behind hyperThreading I would recommend [this](https://www.youtube.com/watch?v=mSZpDF-zUoI) video by [Gary Explains
+](https://www.youtube.com/channel/UCRjSO-juFtngAeJGJRMdIZw).
+
+
+## How do all these all connect?
+
+At this point, you should have a basic idea of `User Level Threads`, `Kernel Level Threads` and `HyperThreads`. However, how these these components connect is a little bit tricky.
+
+Let's start by seeing how ULT interact with KLT.
+
+### ULT and KLT
+
+
+
+
+
+
 ```
 The term threads usually covers three abstraction layers:
 
@@ -401,10 +477,25 @@ Having said this, typically starting more than 2x the number of hardware threads
 ```
 
 ```
-
 Dependency between ULT and KLT : 
-The one and only major dependency between KLT and ULT arise when an ULT is in need of the Kernel resources. Every ULT thread is associated to a virtual processor called Light-weight process. This is created and bined to ULT by the thread library according to the application need. Whenever a system call invoked, a kernel level thread is created and scheduled to the LWPs by the system scheduler. These KLT are scheduled to access the kernel resources by the system scheduler which is unaware of the ULT. Whereas the KLT is aware of each ULT associated to it via LWPs. 
-```https://www.geeksforgeeks.org/relationship-between-user-level-thread-and-kernel-level-thread/
+The one and only major dependency between KLT and ULT arise when an ULT is in need of the Kernel resources. Every ULT thread is associated to a virtual processor called Light-weight process. This is created and binned to ULT by the thread library according to the application need. Whenever a system call invoked, a kernel level thread is created and scheduled to the LWPs by the system scheduler. These KLT are scheduled to access the kernel resources by the system scheduler which is unaware of the ULT. Whereas the KLT is aware of each ULT associated to it via LWPs. 
+```
+https://www.geeksforgeeks.org/relationship-between-user-level-thread-and-kernel-level-thread/
+
+
+```
+preemptively or cooperatively
+concurrently vs parrellelly 
+```
+
+```
+The term "light-weight process" variously refers to user threads or to kernel mechanisms for scheduling user threads onto kernel threads.
+
+
+context switching between threads in the same process typically occurs faster than context switching between processes
+```
+https://en.wikipedia.org/wiki/Thread_(computing)#:~:text=User%20threads%20may%20be%20executed,user%20threads%20onto%20kernel%20threads.
+
 
 https://stackoverflow.com/questions/46619223/difference-between-cpu-threads-kernel-threads-os-threads-user-threads
 https://www.youtube.com/watch?v=w0t8nA6ssrw&ab_channel=OSCAAcademy
@@ -413,7 +504,9 @@ https://stackoverflow.com/questions/1178785/relationship-between-a-kernel-and-a-
 https://stackoverflow.com/questions/16322446/what-exactly-is-a-kernel-thread-and-how-does-it-work-with-processes
 https://stackoverflow.com/questions/4985182/what-is-the-difference-between-kernel-threads-and-user-threads?rq=1
 https://www.geeksforgeeks.org/why-must-user-threads-be-mapped-to-a-kernel-thread/#:~:text=All%20the%20user%20threads%20that,hence%20the%20process%20is%20executed.
-
+https://en.wikipedia.org/wiki/Thread_(computing)#:~:text=User%20threads%20may%20be%20executed,user%20threads%20onto%20kernel%20threads.
+https://unix.stackexchange.com/questions/472324/what-are-the-relations-between-processes-kernel-threads-lightweight-processes
+https://stackoverflow.com/questions/40707221/multithreading-model-in-linux-and-windows
 
 ## Hyper-threading (Hardware threads)
 
@@ -426,6 +519,12 @@ Use the kernel thread to access system calls
 ### System calls
 
 ## OS-threading
+
+## Useful Links
+
+As you can imagine, this section required lots of research. As a result, below are some of the links I used during my time researching this area.
+
+ * [Why are user level threads faster than kernel level threads?](https://superuser.com/questions/669883/why-are-user-level-threads-faster-than-kernel-level-threads)
 
 # Useful links
 
